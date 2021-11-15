@@ -3,6 +3,7 @@ import './ExpenseForm.css';
 
 const ExpenseForm = (props) => {
 
+    const [renderExpenseForm, setrenderExpenseForm] = useState('')
 
     
     const [enteredTitle, setEnteredTitle] = useState('');
@@ -29,18 +30,27 @@ const ExpenseForm = (props) => {
             amount: enteredAmount,
             date: new Date(enteredDate),
         }
+
         props.onSaveExpenseData(expenseData);
 
         setEnteredTitle('');
         setEnteredAmount('');
         setEnteredDate('');
 
+        setrenderExpenseForm(false);
 
     };
 
 
-   
+    function ExpenseFormCancleHandler() {
+        setrenderExpenseForm(false);
+    }
 
+    const addExpenseButtonClickHandler = ()=> {
+        setrenderExpenseForm(true);
+    };
+
+    if (renderExpenseForm) {
         return (
 
             <form onSubmit={submitHandler}>
@@ -78,15 +88,20 @@ const ExpenseForm = (props) => {
             </div>
             <div className="new-expense__actions">
                 <button type="submit">Add Expense</button>
+                <button onClick={ExpenseFormCancleHandler}>cancel</button>
             </div>
         </form>
         )
-    
+    }
 
     
 
-
-    
+    return (
+        <div
+        onClick={addExpenseButtonClickHandler}>
+            <button type="submit">Add New Expense</button>
+        </div>
+    )
 }
 
 export default ExpenseForm;
